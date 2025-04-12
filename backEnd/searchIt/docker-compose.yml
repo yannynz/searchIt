@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:15
+    container_name: searchit_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgresynz
+      POSTGRES_PASSWORD: myss1234$
+      POSTGRES_DB: db_searchit
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: searchit_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      # Variáveis de ambiente sobrescrevendo seu application.properties se quiser
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://db:5432/db_searchit"
+      SPRING_DATASOURCE_USERNAME: "postgresynz"
+      SPRING_DATASOURCE_PASSWORD: "myss1234$"
+
+      # Configurações de e-mail (exemplo com Mailtrap)
+      SPRING_MAIL_HOST: "sandbox.smtp.mailtrap.io"
+      SPRING_MAIL_PORT: "2525"
+      SPRING_MAIL_USERNAME: "d3621956c44e13"
+      SPRING_MAIL_PASSWORD: "6d41f16649d8b1"
+
+volumes:
+  db_data:
+
