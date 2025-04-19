@@ -32,5 +32,12 @@ public class OrcamentoController {
         List<OrcamentoRequest> lista = orcamentoService.listarOrcamentos();
         return ResponseEntity.ok(lista);
     }
+
+    // GET /orcamentos/{id}
+    @GetMapping("/{id}")
+    public ResponseEntity<OrcamentoRequest> buscarPorId(@PathVariable Integer id) {
+        OrcamentoRequest orcamento = orcamentoService.buscarOrcamentoPorId(id);
+        return ResponseEntity.ok(orcamento);
+    }
 }
 

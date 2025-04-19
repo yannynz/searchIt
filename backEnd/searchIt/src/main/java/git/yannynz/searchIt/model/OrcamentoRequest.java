@@ -1,9 +1,10 @@
 package git.yannynz.searchIt.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDateTime;
+import java.util.List;
+import lombok.*;
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "orcamento_requests")
@@ -26,9 +27,11 @@ public class OrcamentoRequest {
     private String produto;
     private Integer quantidade;
 
-    // Raio de alcance (não implementamos a lógica geoespacial aqui,
-    // mas poderíamos usar lat/long e filtrar depois)
+    // Raio de alcance em km
     private Integer raioKM;
+
+    // Localização do usuário
+    private String cep;
 
     private LocalDateTime dataCriacao;
 
@@ -36,5 +39,9 @@ public class OrcamentoRequest {
     public void prePersist() {
         dataCriacao = LocalDateTime.now();
     }
-}
 
+    @OneToMany(mappedBy = "orcamentoRequest", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Company> empresas;
+
+}

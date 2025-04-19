@@ -1,7 +1,7 @@
 package git.yannynz.searchIt.model;
 
-import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "companies")
@@ -31,5 +31,9 @@ public class Company {
     private String email;
 
     private Boolean emailEnviado;
-}
 
+    @ManyToOne
+    @JoinColumn(name = "orcamento_request_id")
+    private OrcamentoRequest orcamentoRequest;
+
+}
